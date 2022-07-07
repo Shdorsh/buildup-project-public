@@ -1,5 +1,6 @@
 window.onload = function () {
-    let movieDB =[{
+    const movieDB =[];
+    /*{
         title : "Mission Impossible - Fallout",
         image : "https://www.themoviedb.org/t/p/original/AkJQpZp9WoNdj7pLYSj1L0RcMMN.jpg",
         duration : 147,
@@ -94,7 +95,8 @@ window.onload = function () {
         genre : "adventure",
         isFavorite : false,
         comingSoon : false,
-    }];
+    }];*/
+
 /*
 <div class="col-12 col-md-6 col-lg-4 col-xl-3">
     <div class="pbu-movie-card">
@@ -142,7 +144,16 @@ window.onload = function () {
         movieTextOnly.appendChild(movieTitle);
 
         const movieParagraph = document.createElement("p");
-        movieParagraph.innerHTML = foundMovie.duration + " min | " + foundMovie.genre;
+        let genres = "";
+        if(foundMovie.genre) {
+            foundMovie.genre.forEach(genre => {
+                genres += `${genre.name}, `;
+            });
+        } else {
+            genres = "N/A";
+        };
+        genres = genres.slice(0,-2);
+        movieParagraph.innerHTML = `${foundMovie.duration} | ${genres}`;
         movieTextOnly.appendChild(movieParagraph);
 
         if(foundMovie.isFavorite) {
@@ -154,38 +165,43 @@ window.onload = function () {
         mainContainer.appendChild(cardWrap);
     };
 
-    // Make movies inside the "opening this week" tab
-    // Initialize loop variables
-    let foundObjects = 0
-    let i = 0;
-    while(foundObjects < 8) {
-        let foundMovie = movieDB[i];
-
-        // Only create a moviecard if the movie is already out
-        if(!foundMovie.comingSoon) {
-            createMovieCard("opening-movies",foundMovie);
+    function fetchAPI(cardContainer,fetchQuery, maxNum) {
+        // If no query given, return random page
+        if(!fetchQuery) {
+            fetchQuery = `?page=${Math.round((Math.random(1,9000)*100))}&sfw`;
         }
 
-        // Increment and check if the loop is broken by going over the array's length
-        i++;
-        if(i >= movieDB.length)
-            break;
+        // Fetch the query
+        fetch(`https://api.jikan.moe/v4/anime${fetchQuery}`)
+            .then(data => {return data.json()})
+            .then(animeList => {
+                console.log(animeList.data);
+                let amountControl = 0
+                animeList.data.forEach(data => {
+                    // If enough animes displayed, stop
+                    if(amountControl >= maxNum) {
+                        return;
+                    };
+
+                    // Create a new anime object
+                    const fetchedAnime = {
+                        title: (data.title_english) ? data.title_english : data.title,
+                        image: data.images.jpg.image_url,
+                        duration: data.duration,
+                        genre: data.genres,
+                        isFavorite: (data.score > 7.1)
+                    }
+
+                    // Cache and display anime
+                    movieDB.push(fetchedAnime);
+                    createMovieCard(cardContainer, fetchedAnime);
+                    amountControl++;
+                });
+
+
+            });
     };
 
-    // Make movies inside the coming soon tab
-    // Same thing...
-    foundObjects = 0;
-    i = 0;
-    while(foundObjects < 4) {
-        let foundMovie = movieDB[i];
-
-        // ...except for showing the ones that aren't out
-        if(foundMovie.comingSoon) {
-            createMovieCard("coming-movies",foundMovie);
-        }
-
-        i++;
-        if(i >= movieDB.length)
-            break;
-    };
+    fetchAPI("opening-movies",`?page=${Math.round((Math.random(1,9000)*100))}&sfw`, 8);
+    fetchAPI("coming-movies",`?page=${Math.round((Math.random(1,9000)*100))}&sfw`, 4);
 };
