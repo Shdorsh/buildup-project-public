@@ -15,7 +15,7 @@ body {
 .hero {
     height: 800px;
     width: 100%;
-    background-image:url("../assets/meg_hero.jpg");
+    background-image:url("../assets/heroBackground.jpg");
     background-color: #00000088;
     background-blend-mode: darken;
     background-attachment: fixed;
@@ -26,11 +26,24 @@ body {
 .shd-margin-hor-2 {
     margin-left: 2em;
     margin-right: 2em;
+    display: flex;
+    justify-content: space-between;
 }
 
 .shd-border-top-1px {
     border-top: 1px solid grey;
 }
+
+.input-group {
+    width: 20%;
+    
+}
+/* styling search buttons*/
+.btn-outline-primary{
+    color: grey;
+}
+
+
 
 /* Movie card */
 .pbu-movie-card {
