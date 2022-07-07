@@ -1,0 +1,136 @@
+:root {
+    --background-blue: #0F1014;
+    --footer-black: black;
+    --paragraph-grey: grey;
+    --amc-red: #E51937;
+}
+
+body {
+    background-color: var(--background-blue);
+    color: white;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Hero */
+.hero {
+    height: 800px;
+    width: 100%;
+    background-image: url("../assets/heroBackground.jpg");
+    background-color: #00000088;
+    background-blend-mode: darken;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.shd-margin-hor-2 {
+    margin-left: 2em;
+    margin-right: 2em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.shd-border-top-1px {
+    border-top: 1px solid grey;
+}
+
+.input-group {
+    width: 20%;
+
+}
+
+/* styling search buttons*/
+.btn-outline-primary {
+    color: grey;
+}
+
+
+
+
+
+
+/* Footer */
+.shd-footer {
+    width: 100%;
+    background-color: var(--footer-black);
+    margin-top: 7em;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    justify-content: center;
+    flex-flow: row nowrap;
+    gap: 10px;
+}
+
+.shd-footer>.container-fluid {
+    justify-content: center;
+}
+
+.shd-links {
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.shd-margin-vert-4 {
+    margin-top: 7em;
+    margin-bottom: 7em;
+}
+
+.shd-footlink {
+    text-decoration: none;
+    color: var(--paragraph-grey);
+}
+
+.shd-footlink:hover {
+    color: white;
+}
+
+
+
+.Title {
+    grid-area: Title;
+    border: 1px solid rgb(39, 39, 39);
+}
+
+.Release_Date {
+    grid-area: Release_Date;
+    border: 1px solid rgb(39, 39, 39);
+}
+
+.Image {
+    grid-area: Image;
+    border: 1px solid rgb(39, 39, 39);
+}
+
+.Synopsis {
+    grid-area: Synopsis;
+    border: 1px solid rgb(39, 39, 39);
+}
+
+
+
+
+@media (min-width: 992px) {
+    .main_container {
+        display: grid;
+        margin: 10px;
+        row-gap: 10px;
+        column-gap: 10px;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(7, 1fr);
+        grid-template-areas:
+            'Title Title'
+            'Release_Date Release_Date'
+            'Image Synopsis'
+            'Image Synopsis'
+            'Image Synopsis'
+            'Image Synopsis'
+            'Image Synopsis'
+        ;
+    }
+}
+
+/*
+.diva{
+    grid-area: "title";
+}
+*/
