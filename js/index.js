@@ -108,6 +108,11 @@ window.onload = function () {
     // Add a listener that makes suggestions on entering stuff in the input
     searchForm.addEventListener("input", event => {
         event.preventDefault();
+        // Remove old suggestions, also when someone deletes below 3 characters
+        for(optionElement of document.getElementsByTagName("option")) {
+            optionElement.remove();
+        };
+
         // MyAnimeList does not process strings smaller than 3 letters
         if(formInput.value.length < 3) {
             return;
@@ -118,10 +123,12 @@ window.onload = function () {
     });
 
     function addDataListOptions(fetchedMovies) {
+        // Make an option for each movie in the list
         fetchedMovies.forEach(fetchedMovie => {
             const newAnimeOption = document.createElement("option");
             newAnimeOption.value = fetchedMovie.title;
-            newAnimeOption.innerText = fetchedMovie.title;
+            newAnimeOption.innerText = `${fetchedMovie.title}`;
+            //console.log(fetchedMovie.images.jpg.small_image_url);
             animeDataList.appendChild(newAnimeOption);
         });
     };
